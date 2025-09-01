@@ -1,0 +1,11 @@
+# Ignore environment files
+.env
+
+# Ignore Node and Dotnet stuff (if relevant)
+node_modules/
+bin/
+obj/
+
+# Ignore Docker build cache
+*.log
+*.tmp

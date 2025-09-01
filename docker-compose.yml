@@ -1,0 +1,35 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/FileManagementSystem.API/Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection='Host=db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}'
+    networks:
+      - file-network
+
+  db:
+    image: postgres:15
+    container_name: file-db
+    restart: always
+    environment:
+      POSTGRES_USER=${POSTGRES_USER}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - file-db-data:/var/lib/postgresql/data
+    networks:
+      - file-network
+
+volumes:
+  file-db-data:
+
+networks:
+  file-network:
+    driver: bridge
